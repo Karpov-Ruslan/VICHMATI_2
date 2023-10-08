@@ -380,9 +380,14 @@ int main() {
     fin.open("direct_methods.csv");
     fin << "Method;Gauss;LU\nResidual";
 
-
-    fin << ";" << norm_1(prod(A, Gauss(A, f)) - f);
-    fin << ";" << norm_1(prod(A, LU_decomposition(A, f)) - f);
+    vector sol_Gauss = Gauss(A, f);
+    vector sol_LU = LU_decomposition(A, f);
+    fin << ";" << norm_1(prod(A, sol_Gauss) - f);
+    fin << ";" << norm_1(prod(A, sol_LU) - f) << "\n\n";
+    fin << "Answers:;" << sol_Gauss(0) << ";" << sol_LU(0);
+    for (int i = 1; i < sol_Gauss.size(); i++) {
+        fin << "\n;" << sol_Gauss(i) << ";" << sol_LU(i);
+    }
 
     fin.close();
 
